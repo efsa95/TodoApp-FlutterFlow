@@ -32,6 +32,11 @@ class LoginModel extends FlutterFlowModel<LoginWidget> {
     return null;
   }
 
+  // State field(s) for SignupPhoneNum widget.
+  FocusNode? signupPhoneNumFocusNode;
+  TextEditingController? signupPhoneNumTextController;
+  String? Function(BuildContext, String?)?
+      signupPhoneNumTextControllerValidator;
   // State field(s) for SignupPassword widget.
   FocusNode? signupPasswordFocusNode;
   TextEditingController? signupPasswordTextController;
@@ -127,6 +132,9 @@ class LoginModel extends FlutterFlowModel<LoginWidget> {
     tabBarController?.dispose();
     signupEmailFocusNode?.dispose();
     signupEmailTextController?.dispose();
+
+    signupPhoneNumFocusNode?.dispose();
+    signupPhoneNumTextController?.dispose();
 
     signupPasswordFocusNode?.dispose();
     signupPasswordTextController?.dispose();

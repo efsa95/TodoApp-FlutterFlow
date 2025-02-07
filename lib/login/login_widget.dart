@@ -35,6 +35,9 @@ class _LoginWidgetState extends State<LoginWidget>
     _model.signupEmailTextController ??= TextEditingController();
     _model.signupEmailFocusNode ??= FocusNode();
 
+    _model.signupPhoneNumTextController ??= TextEditingController();
+    _model.signupPhoneNumFocusNode ??= FocusNode();
+
     _model.signupPasswordTextController ??= TextEditingController();
     _model.signupPasswordFocusNode ??= FocusNode();
 
@@ -91,7 +94,7 @@ class _LoginWidgetState extends State<LoginWidget>
                       ),
                     ),
                     Container(
-                      height: 340.42,
+                      height: 379.26,
                       decoration: const BoxDecoration(),
                       child: Column(
                         children: [
@@ -289,6 +292,149 @@ class _LoginWidgetState extends State<LoginWidget>
                                                   .primaryText,
                                           validator: _model
                                               .signupEmailTextControllerValidator
+                                              .asValidator(context),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 400.0,
+                                        child: TextFormField(
+                                          controller: _model
+                                              .signupPhoneNumTextController,
+                                          focusNode:
+                                              _model.signupPhoneNumFocusNode,
+                                          onChanged: (_) =>
+                                              EasyDebounce.debounce(
+                                            '_model.signupPhoneNumTextController',
+                                            const Duration(milliseconds: 2000),
+                                            () => safeSetState(() {}),
+                                          ),
+                                          autofocus: false,
+                                          textInputAction: TextInputAction.next,
+                                          obscureText: false,
+                                          decoration: InputDecoration(
+                                            isDense: true,
+                                            labelStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelLarge
+                                                    .override(
+                                                      fontFamily:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .labelLargeFamily,
+                                                      letterSpacing: 0.0,
+                                                      useGoogleFonts: GoogleFonts
+                                                              .asMap()
+                                                          .containsKey(
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .labelLargeFamily),
+                                                    ),
+                                            hintText: 'Phone Number...',
+                                            hintStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelLarge
+                                                    .override(
+                                                      fontFamily:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .labelLargeFamily,
+                                                      fontSize: 18.0,
+                                                      letterSpacing: 0.0,
+                                                      useGoogleFonts: GoogleFonts
+                                                              .asMap()
+                                                          .containsKey(
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .labelLargeFamily),
+                                                    ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryText,
+                                                width: 1.0,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(24.0),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primary,
+                                                width: 1.0,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(24.0),
+                                            ),
+                                            errorBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .error,
+                                                width: 1.0,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(24.0),
+                                            ),
+                                            focusedErrorBorder:
+                                                OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .error,
+                                                width: 1.0,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(24.0),
+                                            ),
+                                            filled: true,
+                                            fillColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .secondaryBackground,
+                                            contentPadding:
+                                                const EdgeInsetsDirectional.fromSTEB(
+                                                    24.0, 26.0, 24.0, 26.0),
+                                            suffixIcon: _model
+                                                    .signupPhoneNumTextController!
+                                                    .text
+                                                    .isNotEmpty
+                                                ? InkWell(
+                                                    onTap: () async {
+                                                      _model
+                                                          .signupPhoneNumTextController
+                                                          ?.clear();
+                                                      safeSetState(() {});
+                                                    },
+                                                    child: const Icon(
+                                                      Icons.clear,
+                                                      size: 24.0,
+                                                    ),
+                                                  )
+                                                : null,
+                                          ),
+                                          style: FlutterFlowTheme.of(context)
+                                              .labelLarge
+                                              .override(
+                                                fontFamily:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelLargeFamily,
+                                                fontSize: 18.0,
+                                                letterSpacing: 0.0,
+                                                useGoogleFonts: GoogleFonts
+                                                        .asMap()
+                                                    .containsKey(
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .labelLargeFamily),
+                                              ),
+                                          keyboardType:
+                                              TextInputType.emailAddress,
+                                          cursorColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .primaryText,
+                                          validator: _model
+                                              .signupPhoneNumTextControllerValidator
                                               .asValidator(context),
                                         ),
                                       ),
@@ -948,6 +1094,8 @@ class _LoginWidgetState extends State<LoginWidget>
                                       'example@email.com',
                                     ),
                                     createdTime: getCurrentTimestamp,
+                                    phoneNumber: _model
+                                        .signupPhoneNumTextController.text,
                                   ));
 
                               context.goNamedAuth(
