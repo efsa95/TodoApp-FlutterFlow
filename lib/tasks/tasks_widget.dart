@@ -140,24 +140,6 @@ class _TasksWidgetState extends State<TasksWidget> {
                 ),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 0.0, 0.0),
-                child: Text(
-                  valueOrDefault<String>(
-                    QuoteAPICall.eventTextAPI(
-                      (_model.apiResult591?.jsonBody ?? ''),
-                    )?.firstOrNull,
-                    'None',
-                  ),
-                  style: FlutterFlowTheme.of(context).labelMedium.override(
-                        fontFamily:
-                            FlutterFlowTheme.of(context).labelMediumFamily,
-                        letterSpacing: 0.0,
-                        useGoogleFonts: GoogleFonts.asMap().containsKey(
-                            FlutterFlowTheme.of(context).labelMediumFamily),
-                      ),
-                ),
-              ),
-              Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 0.0, 0.0),
                 child: Text(
                   'Tasks',
@@ -222,6 +204,27 @@ class _TasksWidgetState extends State<TasksWidget> {
                       },
                     );
                   },
+                ),
+              ),
+              Align(
+                alignment: AlignmentDirectional(-1.0, 0.0),
+                child: Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 0.0, 0.0),
+                  child: Text(
+                    valueOrDefault<String>(
+                      QuoteAPICall.eventTextAPI(
+                        (_model.apiResult591?.jsonBody ?? ''),
+                      )?.firstOrNull,
+                      'None',
+                    ),
+                    style: FlutterFlowTheme.of(context).labelMedium.override(
+                          fontFamily:
+                              FlutterFlowTheme.of(context).labelMediumFamily,
+                          letterSpacing: 0.0,
+                          useGoogleFonts: GoogleFonts.asMap().containsKey(
+                              FlutterFlowTheme.of(context).labelMediumFamily),
+                        ),
+                  ),
                 ),
               ),
               Align(
