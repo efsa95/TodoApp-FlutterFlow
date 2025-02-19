@@ -1,10 +1,13 @@
 import '/auth/firebase_auth/auth_util.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
 import '/components/add_task_widget.dart';
 import '/components/task_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'tasks_model.dart';
 export 'tasks_model.dart';
@@ -25,6 +28,32 @@ class _TasksWidgetState extends State<TasksWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => TasksModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.apiResult591 = await QuoteAPICall.call();
+
+      if ((_model.apiResult591?.succeeded ?? true)) {
+        _model.quotePageVar = valueOrDefault<String>(
+          (_model.apiResult591?.bodyText ?? ''),
+          'None',
+        );
+        safeSetState(() {});
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Could not reach API',
+              style: TextStyle(
+                color: FlutterFlowTheme.of(context).primaryText,
+              ),
+            ),
+            duration: Duration(milliseconds: 4000),
+            backgroundColor: FlutterFlowTheme.of(context).error,
+          ),
+        );
+      }
+    });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
@@ -60,7 +89,7 @@ class _TasksWidgetState extends State<TasksWidget> {
                   },
                   child: Padding(
                     padding: MediaQuery.viewInsetsOf(context),
-                    child: const AddTaskWidget(),
+                    child: AddTaskWidget(),
                   ),
                 );
               },
@@ -86,13 +115,13 @@ class _TasksWidgetState extends State<TasksWidget> {
           ),
         ),
         body: Padding(
-          padding: const EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 24.0),
+          padding: EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 24.0),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 0.0, 0.0),
+                padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 0.0, 0.0),
                 child: AuthUserStreamWidget(
                   builder: (context) => Text(
                     valueOrDefault<String>(
@@ -111,7 +140,25 @@ class _TasksWidgetState extends State<TasksWidget> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 0.0, 0.0),
+                padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 0.0, 0.0),
+                child: Text(
+                  valueOrDefault<String>(
+                    QuoteAPICall.eventTextAPI(
+                      (_model.apiResult591?.jsonBody ?? ''),
+                    )?.firstOrNull,
+                    'None',
+                  ),
+                  style: FlutterFlowTheme.of(context).labelMedium.override(
+                        fontFamily:
+                            FlutterFlowTheme.of(context).labelMediumFamily,
+                        letterSpacing: 0.0,
+                        useGoogleFonts: GoogleFonts.asMap().containsKey(
+                            FlutterFlowTheme.of(context).labelMediumFamily),
+                      ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 0.0, 0.0),
                 child: Text(
                   'Tasks',
                   style: FlutterFlowTheme.of(context).headlineMedium.override(
@@ -157,7 +204,7 @@ class _TasksWidgetState extends State<TasksWidget> {
                       padding: EdgeInsets.zero,
                       scrollDirection: Axis.vertical,
                       itemCount: listViewTasksRecordList.length,
-                      separatorBuilder: (_, __) => const SizedBox(height: 12.0),
+                      separatorBuilder: (_, __) => SizedBox(height: 12.0),
                       itemBuilder: (context, listViewIndex) {
                         final listViewTasksRecord =
                             listViewTasksRecordList[listViewIndex];
@@ -177,7 +224,42 @@ class _TasksWidgetState extends State<TasksWidget> {
                   },
                 ),
               ),
-            ].divide(const SizedBox(height: 12.0)),
+              Align(
+                alignment: AlignmentDirectional(-1.0, 0.0),
+                child: Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(28.0, 0.0, 0.0, 0.0),
+                  child: FFButtonWidget(
+                    onPressed: () async {
+                      context.goNamed('login');
+                    },
+                    text: 'Logout',
+                    options: FFButtonOptions(
+                      height: 50.0,
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                      iconPadding:
+                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                      color: FlutterFlowTheme.of(context).primary,
+                      textStyle: FlutterFlowTheme.of(context)
+                          .labelMedium
+                          .override(
+                            fontFamily:
+                                FlutterFlowTheme.of(context).labelMediumFamily,
+                            fontSize: 20.0,
+                            letterSpacing: 0.0,
+                            useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                FlutterFlowTheme.of(context).labelMediumFamily),
+                          ),
+                      elevation: 0.0,
+                      borderSide: BorderSide(
+                        color: FlutterFlowTheme.of(context).primaryText,
+                      ),
+                      borderRadius: BorderRadius.circular(24.0),
+                    ),
+                  ),
+                ),
+              ),
+            ].divide(SizedBox(height: 12.0)),
           ),
         ),
       ),
